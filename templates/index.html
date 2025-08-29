@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CTE Web UI</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; }
+      .card { border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 4px; }
+      label { display:block; margin-top:0.5rem }
+    </style>
+  </head>
+  <body>
+    <h1>CTE Web UI</h1>
+
+    <div class="card">
+      <h2>Generate Recommendation</h2>
+      <form method="post" action="/recommend">
+        <label>Patient ID: <input name="patient_id" /></label>
+        <button type="submit">Recommend & Simulate</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Run Virtual Trial</h2>
+      <form method="post" action="/virtual_trial">
+        <label>Number of patients: <input name="n_patients" value="50" /></label>
+        <label>Control drug: <input name="control_drug" value="cisplatin" /></label>
+        <label>Control dose: <input name="control_dose" value="75" /></label>
+        <label>Experimental drug: <input name="exp_drug" value="carboplatin" /></label>
+        <label>Experimental dose: <input name="exp_dose" value="120" /></label>
+        <button type="submit">Run Virtual Trial</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Last Results</h2>
+      {% if results.last_recommendation %}
+        <div><strong>Last recommendation:</strong> {{ results.last_recommendation.patient_id }} - {{ results.last_recommendation.policy.actions[0].drug }}</div>
+      {% else %}
+        <div>No recommendation run yet.</div>
+      {% endif %}
+
+      {% if results.last_trial %}
+        <div><strong>Last trial summary:</strong> {{ results.last_trial.trial_summary.n_experimental }} experimental</div>
+      {% endif %}
+    </div>
+
+  </body>
+</html>

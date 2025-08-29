@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CTE Result</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem }
+      pre { background: #f7f7f7; padding: 1rem; border-radius: 4px }
+    </style>
+  </head>
+  <body>
+    <h1>CTE Result</h1>
+
+    {% if error %}
+      <div style="color: red"><strong>Error:</strong> {{ error }}</div>
+      <h3>Traceback</h3>
+      <pre>{{ traceback }}</pre>
+    {% endif %}
+
+    {% if payload %}
+      <h2>Recommendation</h2>
+      <div class="card">
+        <div>Patient: {{ payload.recommendation.patient_id }}</div>
+        <div>Drug: {{ payload.recommendation.drug }} {{ payload.recommendation.dose }}mg</div>
+        <div>Duration: {{ payload.recommendation.duration }} days</div>
+        <div>Expected benefit: {{ payload.recommendation.expected_benefit }}</div>
+      </div>
+
+      <h2>Simulation Summary</h2>
+      <div class="card">
+        <div>Initial tumor: {{ payload.simulation_summary.initial_tumor }}</div>
+        <div>Final tumor: {{ payload.simulation_summary.final_tumor }}</div>
+        <div>6m survival: {{ payload.simulation_summary.survival_6m }}</div>
+        <div>Max AE risk: {{ payload.simulation_summary.max_ae_risk }}</div>
+      </div>
+    {% endif %}
+
+    {% if trial %}
+      <h2>Virtual Trial</h2>
+      <div class="card">
+        <pre>{{ trial | tojson(indent=2) }}</pre>
+      </div>
+    {% endif %}
+
+    <p><a href="/">Back</a></p>
+  </body>
+</html>
